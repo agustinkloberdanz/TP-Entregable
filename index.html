@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TP - Entregable</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src='https://code.jquery.com/jquery-1.12.4.js'></script>
+    <script src='https://code.jquery.com/ui/1.12.1/jquery-ui.js'></script>
+    <script src="script.js"></script>
+</head>
+<body>
+
+    <div id="add-students-div">
+        <input type="text" id="dni" placeholder="DNI">
+        <input type="text" id="lastname" placeholder="Last Name">
+        <input type="text" id="firstname" placeholder="First Name">
+        <input type="text" id="email" placeholder="Email">
+
+        <!-- No hardcodeado -->
+        <!-- <input type="text" id="cohort" placeholder="cohort">
+        <input type="text" id="status" placeholder="status">
+        <input type="text" id="gender" placeholder="gender">
+        <input type="text" id="address" placeholder="address">
+        <input type="text" id="phone" placeholder="phone"> -->
+
+        <button onclick="saveStudent()">Agregar estudiante</button>
+    </div>
+
+    <button id="button-modificar-div" onclick="mostrar()">Modificar estudiante</button>
+    <div id="update-students-div">
+        <input type="text" id="idMod" placeholder="ID del estudiante a modificar">
+        <input type="text" id="dniMod" placeholder="DNI">
+        <input type="text" id="lastnameMod" placeholder="Last Name">
+        <input type="text" id="firstnameMod" placeholder="First Name">
+        <input type="text" id="emailMod" placeholder="Email">
+        
+        <!-- No hardcodeado -->
+        <!-- <input type="text" id="cohortMod" placeholder="cohort">
+        <input type="text" id="statusMod" placeholder="status">
+        <input type="text" id="genderMod" placeholder="gender">
+        <input type="text" id="addressMod" placeholder="address">
+        <input type="text" id="phoneMod" placeholder="phone"> -->
+
+        <button onclick="updateStudent()">Enviar</button>
+    </div>
+    
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>DNI</th>
+                <th>LastName</th>
+                <th>FirstName</th>
+                <th>Email</th>
+            </tr>
+        </thead>
+        <tbody id="table-info-students">
+
+        </tbody>
+    </table>
+    
+</body>
+</html>
+

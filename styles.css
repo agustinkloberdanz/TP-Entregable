@@ -1,0 +1,27 @@
+th,
+td {
+    padding: 5px;
+    text-align: center;
+    border: 1px solid;
+    width: 175px;
+}
+
+input {
+    margin: 5px;
+    width: 200px;
+}
+
+#update-students-div {
+    display: none;
+}
+
+.delete-button {
+    background-color: red;
+    font-size: 15px;
+    transition: 0.5s;
+}
+
+.delete-button:hover {
+    background-color: rgb(161, 0, 0);
+    transition: 0.5s;
+}
