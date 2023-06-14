@@ -30,7 +30,7 @@ function getStudents() {
 function getOneStudent(id) {
     return new Promise(function (resolve, reject) {
         var request = new XMLHttpRequest()
-        request.open('GET', url + `/dni/${id}`)
+        request.open('GET', url + '/dni/' + id)
         request.responseType = 'json'
         request.onload = () => {
             if (request.status == 200) {
@@ -49,8 +49,7 @@ function getOneStudent(id) {
 function removeStudent(id) {
     return new Promise(function (resolve, reject) {
         var request = new XMLHttpRequest()
-        request.open('POST', url + `/${id}/delete`)
-        // request.open('POST', url + '/' + id + '/delete')
+        request.open('POST', url + '/' + id + '/delete')
         request.setRequestHeader('Content-Type', 'application/json')
         request.onload = () => {
             if (request.status == 200) {
@@ -103,11 +102,10 @@ function addStudent() {
     })
 }
 
-function modifyStudent() {
-    var idMod = document.getElementById('idMod').value
+function modifyStudent(id) {
     return new Promise(function (resolve, reject) {
         var request = new XMLHttpRequest()
-        request.open('POST', url + `/${idMod}/update`)
+        request.open('POST', url + '/' + id + '/update')
         request.setRequestHeader('Content-Type', 'application/json')
         var student = JSON.stringify({
             'dni': document.getElementById('dniMod').value,
@@ -145,7 +143,7 @@ function modifyStudent() {
 
 function loadStudents() {
     getStudents()
-        .then((response) => {
+        .then(response => {
             var tbody = document.getElementById('table-info-students')
             tbody.innerHTML = ''
             response.forEach(element => {
@@ -162,12 +160,13 @@ function loadStudents() {
                 email.innerHTML = element.email
 
                 var eliminar = row.insertCell()
+                eliminar.style.border = 0
                 var deleteButton = document.createElement('button')
                 deleteButton.setAttribute('class', 'delete-button')
                 deleteButton.addEventListener('click', () => deleteStudent(element.id))
                 var i = document.createElement('i')
                 i.setAttribute('class', 'fa fa-trash-o')
-                buttonEliminar.appendChild(i)
+                deleteButton.appendChild(i)
                 eliminar.appendChild(deleteButton)
 
                 document.querySelector('#dni').value = ''
@@ -178,14 +177,14 @@ function loadStudents() {
             })
             countStudents()
         })
-        .catch((reason) => {
+        .catch(reason => {
             console.log(Error(reason))
         })
 }
 
 function loadOneStudent(id) {
     getOneStudent(id)
-        .then((response) => {
+        .then(response => {
             document.getElementById('idABuscar').value = ''
             document.getElementById('idBuscar').innerHTML = response.id
             document.getElementById('dniBuscar').innerHTML = response.dni
@@ -193,7 +192,7 @@ function loadOneStudent(id) {
             document.getElementById('lastnameBuscar').innerHTML = response.lastName
             document.getElementById('emailBuscar').innerHTML = response.email
         })
-        .catch((reason) => {
+        .catch(reason => {
             console.log(Error(reason))
         })
 }
@@ -218,8 +217,8 @@ function deleteStudent(id) {
         })
 }
 
-function updateStudent() {
-    modifyStudent()
+function updateStudent(id) {
+    modifyStudent(id)
         .then(response => {
             loadStudents()
         })
@@ -235,12 +234,11 @@ function updateStudent() {
 
 function countStudents() {
     getStudents()
-        .then((response) => {
+        .then(response => {
             let cant = 0
             response.forEach((element => {
                 cant++
             }))
-
             document.getElementById('cant-estudiantes').innerHTML = cant
         })
         .catch(reason => {
@@ -262,6 +260,7 @@ function esconder(id, divId) {
     div.style.display = 'none'
     var button = document.getElementById(id)
     button.addEventListener('click', () => mostrar(id, divId))
-    button.style.marginBottom = '25px'
-
+    if (button.id != 'button-students-table') {
+        button.style.marginBottom = '25px'
+    }
 }

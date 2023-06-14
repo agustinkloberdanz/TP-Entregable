@@ -1,4 +1,5 @@
-th, td {
+th,
+td {
     padding: 5px;
     text-align: center;
     border: 1px solid;
@@ -10,17 +11,23 @@ input {
     width: 200px;
 }
 
-#button-add-div, #button-modificar-div, #button-buscar-div {
+#button-add-div,
+#button-modificar-div,
+#button-buscar-div {
     margin-bottom: 25px;
 }
 
-#add-students-div, #update-students-div, #buscar-students-div {
+#add-students-div,
+#update-students-div,
+#buscar-students-div {
     display: none;
 }
 
 .delete-button {
     background-color: red;
-    font-size: 15px;
+    float: left;
+    font-size: 20px;
+    width: 50px;
     transition: 0.5s;
 }
 
