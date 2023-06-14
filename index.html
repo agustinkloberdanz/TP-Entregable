@@ -13,6 +13,7 @@
 </head>
 <body>
 
+    <button id="button-add-div" onclick="mostrar(id, 'add-students-div')">Agregar estudiante</button>
     <div id="add-students-div">
         <input type="text" id="dni" placeholder="DNI">
         <input type="text" id="lastname" placeholder="Last Name">
@@ -26,10 +27,12 @@
         <input type="text" id="address" placeholder="address">
         <input type="text" id="phone" placeholder="phone"> -->
 
-        <button onclick="saveStudent()">Agregar estudiante</button>
+        <button onclick="saveStudent()">Enviar</button>
     </div>
+    
+    <br>
 
-    <button id="button-modificar-div" onclick="mostrar()">Modificar estudiante</button>
+    <button id="button-modificar-div" onclick="mostrar(id, 'update-students-div')">Modificar estudiante</button>
     <div id="update-students-div">
         <input type="text" id="idMod" placeholder="ID del estudiante a modificar">
         <input type="text" id="dniMod" placeholder="DNI">
@@ -46,6 +49,33 @@
 
         <button onclick="updateStudent()">Enviar</button>
     </div>
+
+    <br>
+
+    <button id="button-buscar-div" onclick="mostrar(id, 'buscar-students-div')">Buscar estudiante</button>
+    <div id="buscar-students-div">
+        <input type="text" name="idABuscar" id="idABuscar" placeholder="ID del estudiante a buscar">
+        <button onclick="loadOneStudent(idBuscar.value)">Enviar</button>
+        <br>
+        <label for="idBuscar">ID: </label>
+        <span id="idBuscar"></span>
+        <br>
+        <label for="dniBuscar">DNI: </label>
+        <span id="dniBuscar"></span>
+        <br>
+        <label for="lastnameBuscar">LastName: </label>
+        <span id="lastnameBuscar"></span>
+        <br>
+        <label for="firstnameBuscar">FirstName: </label>
+        <span id="firstnameBuscar"></span>
+        <br>
+        <label for="emailBuscar">Email: </label>
+        <span id="emailBuscar"></span>
+    </div>
+
+    <div id="count-students-div">
+        <p>Cantidad de estudiantes: <span id="cant-estudiantes"></span></p>
+    </div>
     
 
     <table>
@@ -56,6 +86,7 @@
                 <th>LastName</th>
                 <th>FirstName</th>
                 <th>Email</th>
+                <th><button id="button-students-table" onclick="esconder(id, 'table-info-students')">Mostrar/Ocultar estudiantes</button></th>
             </tr>
         </thead>
         <tbody id="table-info-students">

@@ -1,5 +1,6 @@
-// const url = 'https://1bdd-2800-2245-9000-4b4-6e25-e5b2-b951-4c59.ngrok-free.app/student'
-const url = '192.168.0.37'
+// const url = 'https://1bdd-2800-2245-9000-4b4-6e25-e5b2-b951-4c59.ngrok-free.app/student' // profe
+// const url = 'https://204a-190-191-212-26.ngrok-free.app/student.json' // mia
+const url = 'https://my-json-server.typicode.com/agustinkloberdanz/pruebas-request/student' // mia
 
 window.onload = () => {
     loadStudents()
@@ -7,10 +8,29 @@ window.onload = () => {
 
 // PROMISES
 
-function getStudents(url) {
+function getStudents() {
     return new Promise(function (resolve, reject) {
         var request = new XMLHttpRequest()
         request.open('GET', url + '/getAll')
+        request.responseType = 'json'
+        request.onload = () => {
+            if (request.status == 200) {
+                resolve(request.response)
+            } else {
+                reject(Error(request.statusText))
+            }
+        }
+        request.onerror = () => {
+            reject(Error('Oops, there was a network error.'))
+        }
+        request.send()
+    })
+}
+
+function getOneStudent(id) {
+    return new Promise(function (resolve, reject) {
+        var request = new XMLHttpRequest()
+        request.open('GET', url + `/dni/${id}`)
         request.responseType = 'json'
         request.onload = () => {
             if (request.status == 200) {
@@ -124,7 +144,7 @@ function modifyStudent() {
 // FUNCTIONS
 
 function loadStudents() {
-    getStudents(url)
+    getStudents()
         .then((response) => {
             var tbody = document.getElementById('table-info-students')
             tbody.innerHTML = ''
@@ -155,7 +175,23 @@ function loadStudents() {
                 document.querySelector('#firstname').value = ''
                 document.querySelector('#email').value = ''
 
-            });
+            })
+            countStudents()
+        })
+        .catch((reason) => {
+            console.log(Error(reason))
+        })
+}
+
+function loadOneStudent(id) {
+    getOneStudent(id)
+        .then((response) => {
+            document.getElementById('idABuscar').value = ''
+            document.getElementById('idBuscar').innerHTML = response.id
+            document.getElementById('dniBuscar').innerHTML = response.dni
+            document.getElementById('firstnameBuscar').innerHTML = response.firstName
+            document.getElementById('lastnameBuscar').innerHTML = response.lastName
+            document.getElementById('emailBuscar').innerHTML = response.email
         })
         .catch((reason) => {
             console.log(Error(reason))
@@ -197,16 +233,35 @@ function updateStudent() {
     document.querySelector('#emailMod').value = ''
 }
 
-function mostrar() {
-    var div = document.getElementById('update-students-div')
-    div.style.display = 'block'
-    var button = document.getElementById('button-modificar-div')
-    button.addEventListener('click', () => esconder())
+function countStudents() {
+    getStudents()
+        .then((response) => {
+            let cant = 0
+            response.forEach((element => {
+                cant++
+            }))
+
+            document.getElementById('cant-estudiantes').innerHTML = cant
+        })
+        .catch(reason => {
+            console.log(Error(reason))
+        })
 }
 
-function esconder() {
-    var div = document.getElementById('update-students-div')
+
+function mostrar(id, divId) {
+    var div = document.getElementById(divId)
+    div.style.display = 'block'
+    var button = document.getElementById(id)
+    button.addEventListener('click', () => esconder(id, divId))
+    button.style.margin = 0
+}
+
+function esconder(id, divId) {
+    var div = document.getElementById(divId)
     div.style.display = 'none'
-    var button = document.getElementById('button-modificar-div')
-    button.addEventListener('click', () => mostrar())
+    var button = document.getElementById(id)
+    button.addEventListener('click', () => mostrar(id, divId))
+    button.style.marginBottom = '25px'
+
 }

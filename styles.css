@@ -1,5 +1,4 @@
-th,
-td {
+th, td {
     padding: 5px;
     text-align: center;
     border: 1px solid;
@@ -11,7 +10,11 @@ input {
     width: 200px;
 }
 
-#update-students-div {
+#button-add-div, #button-modificar-div, #button-buscar-div {
+    margin-bottom: 25px;
+}
+
+#add-students-div, #update-students-div, #buscar-students-div {
     display: none;
 }
 
