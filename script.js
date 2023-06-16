@@ -1,12 +1,10 @@
-// const url = 'https://1bdd-2800-2245-9000-4b4-6e25-e5b2-b951-4c59.ngrok-free.app/student' // profe
-// const url = 'https://204a-190-191-212-26.ngrok-free.app/student.json' // mia
-const url = 'https://my-json-server.typicode.com/agustinkloberdanz/pruebas-request/student' // mia
+const url = 'https://a210-181-231-122-56.ngrok-free.app/student'
 
 window.onload = () => {
     loadStudents()
 }
 
-// PROMISES
+
 
 function getStudents() {
     return new Promise(function (resolve, reject) {
@@ -27,10 +25,10 @@ function getStudents() {
     })
 }
 
-function getOneStudent(id) {
+function getOneStudent(dni) {
     return new Promise(function (resolve, reject) {
         var request = new XMLHttpRequest()
-        request.open('GET', url + '/dni/' + id)
+        request.open('GET', url + '/dni/' + dni)
         request.responseType = 'json'
         request.onload = () => {
             if (request.status == 200) {
@@ -70,23 +68,17 @@ function addStudent() {
         var request = new XMLHttpRequest()
         request.open('POST', url)
         request.setRequestHeader('Content-Type', 'application/json')
+
         var student = JSON.stringify({
             'dni': document.getElementById('dni').value,
             'firstName': document.getElementById('firstname').value,
             'lastName': document.getElementById('lastname').value,
             'email': document.getElementById('email').value,
-            'cohort': '0',
-            'status': 'activo',
-            'gender': 'masculino',
-            'address': 'abc123',
-            'phone': '000'
-
-            // No hardcodeado
-            // 'cohort': document.getElementById('cohort').value,
-            // 'status': document.getElementById('status').value,
-            // 'gender': document.getElementById('gender').value,
-            // 'address': document.getElementById('address').value,
-            // 'phone': document.getElementById('phone').value
+            'cohort': document.getElementById('cohort').value,
+            'status': document.getElementById('status').value,
+            'address': document.getElementById('address').value,
+            'phone': document.getElementById('phone').value,
+            'gender': document.getElementById('gender').value
         })
         request.onload = () => {
             if (request.status == 201) {
@@ -112,18 +104,11 @@ function modifyStudent(id) {
             'lastName': document.getElementById('lastnameMod').value,
             'firstName': document.getElementById('firstnameMod').value,
             'email': document.getElementById('emailMod').value,
-            'cohort': '0',
-            'status': 'activo',
-            'gender': 'masculino',
-            'address': 'abc123',
-            'phone': '000'
-
-            // No hardcodeado
-            // 'cohort': document.getElementById('cohortMod').value,
-            // 'status': document.getElementById('statusMod').value,
-            // 'gender': document.getElementById('genderMod').value,
-            // 'address': document.getElementById('addressMod').value,
-            // 'phone': document.getElementById('phoneMod').value
+            'cohort': document.getElementById('cohortMod').value,
+            'status': document.getElementById('statusMod').value,
+            'gender': document.getElementById('genderMod').value,
+            'address': document.getElementById('addressMod').value,
+            'phone': document.getElementById('phoneMod').value
         })
         request.onload = () => {
             if (request.status == 200) {
@@ -139,7 +124,7 @@ function modifyStudent(id) {
     })
 }
 
-// FUNCTIONS
+////////////////////////////////////////////////////////////////////////////////////
 
 function loadStudents() {
     getStudents()
@@ -158,22 +143,41 @@ function loadStudents() {
                 firstName.innerHTML = element.firstName
                 var email = row.insertCell()
                 email.innerHTML = element.email
+                var gender = row.insertCell()
+                gender.innerHTML = element.gender
+
+                var student = {
+                    'id': element.id,
+                    'dni': element.dni,
+                    'lastName': element.lastName,
+                    'firstName': element.firstName,
+                    'email': element.email,
+                    'cohort': element.cohort,
+                    'status': element.status,
+                    'gender': element.gender,
+                    'address': element.address,
+                    'phone': element.phone
+                }
 
                 var eliminar = row.insertCell()
                 eliminar.style.border = 0
                 var deleteButton = document.createElement('button')
-                deleteButton.setAttribute('class', 'delete-button')
+                deleteButton.className = 'delete-button'
                 deleteButton.addEventListener('click', () => deleteStudent(element.id))
                 var i = document.createElement('i')
-                i.setAttribute('class', 'fa fa-trash-o')
+                i.className = 'fa fa-trash-o'
                 deleteButton.appendChild(i)
                 eliminar.appendChild(deleteButton)
 
-                document.querySelector('#dni').value = ''
-                document.querySelector('#lastname').value = ''
-                document.querySelector('#firstname').value = ''
-                document.querySelector('#email').value = ''
-
+                var view = row.insertCell()
+                view.style.border = 0
+                var viewButton = document.createElement('button')
+                viewButton.className = 'view-button'
+                viewButton.addEventListener('click', () => loadOneStudent(student))
+                var i2 = document.createElement('i')
+                i2.className = 'fa-solid fa-user'
+                viewButton.appendChild(i2)
+                view.appendChild(viewButton)
             })
             countStudents()
         })
@@ -182,25 +186,28 @@ function loadStudents() {
         })
 }
 
-function loadOneStudent(id) {
-    getOneStudent(id)
-        .then(response => {
-            document.getElementById('idABuscar').value = ''
-            document.getElementById('idBuscar').innerHTML = response.id
-            document.getElementById('dniBuscar').innerHTML = response.dni
-            document.getElementById('firstnameBuscar').innerHTML = response.firstName
-            document.getElementById('lastnameBuscar').innerHTML = response.lastName
-            document.getElementById('emailBuscar').innerHTML = response.email
-        })
-        .catch(reason => {
-            console.log(Error(reason))
-        })
+
+function loadOneStudent(student) {
+    document.getElementById('idMod').value = student.id
+    document.getElementById('dniMod').value = student.dni
+    document.getElementById('lastnameMod').value = student.lastName
+    document.getElementById('firstnameMod').value = student.firstName
+    document.getElementById('emailMod').value = student.email
+    document.getElementById('cohortMod').value = student.cohort
+    document.getElementById('genderMod').value = student.gender
+    document.getElementById('statusMod').value = student.status
+    document.getElementById('addressMod').value = student.address
+    document.getElementById('phoneMod').value = student.phone
+
+    mostrar('button-modificar-div', 'update-students-div')
 }
+
 
 function saveStudent() {
     addStudent()
         .then(response => {
             loadStudents()
+            limpiarInputsSave()
         })
         .catch(reason => {
             console.log(Error(reason))
@@ -221,15 +228,13 @@ function updateStudent(id) {
     modifyStudent(id)
         .then(response => {
             loadStudents()
+            limpiarInputsUpdate()
         })
         .catch(reason => {
             console.log(Error(reason))
         })
 
-    document.querySelector('#dniMod').value = ''
-    document.querySelector('#lastnameMod').value = ''
-    document.querySelector('#firstnameMod').value = ''
-    document.querySelector('#emailMod').value = ''
+
 }
 
 function countStudents() {
@@ -252,7 +257,14 @@ function mostrar(id, divId) {
     div.style.display = 'block'
     var button = document.getElementById(id)
     button.addEventListener('click', () => esconder(id, divId))
-    button.style.margin = 0
+
+    if (button.id != 'button-students-table') {
+        button.style.margin = '0'
+    }
+
+    if(button.id == 'button-mas-datos'){
+        button.innerHTML = 'Menos datos'
+    }
 }
 
 function esconder(id, divId) {
@@ -260,7 +272,37 @@ function esconder(id, divId) {
     div.style.display = 'none'
     var button = document.getElementById(id)
     button.addEventListener('click', () => mostrar(id, divId))
+
     if (button.id != 'button-students-table') {
         button.style.marginBottom = '25px'
     }
+
+    if(button.id == 'button-mas-datos'){
+        button.innerHTML = 'Más datos'
+    }
+}
+
+function limpiarInputsSave() {
+    document.querySelector('#dni').value = ''
+    document.querySelector('#lastname').value = ''
+    document.querySelector('#firstname').value = ''
+    document.querySelector('#email').value = ''
+    document.querySelector('#cohort').value = ''
+    document.querySelector('#status').value = ''
+    document.querySelector('#address').value = ''
+    document.querySelector('#phone').value = ''
+    document.querySelector('#gender').value = ''
+}
+
+function limpiarInputsUpdate() {
+    document.querySelector('#idMod').value = ''
+    document.querySelector('#dniMod').value = ''
+    document.querySelector('#lastnameMod').value = ''
+    document.querySelector('#firstnameMod').value = ''
+    document.querySelector('#emailMod').value = ''
+    document.querySelector('#cohortMod').value = ''
+    document.querySelector('#statusMod').value = ''
+    document.querySelector('#addressMod').value = ''
+    document.querySelector('#phoneMod').value = ''
+    document.querySelector('#genderMod').value = ''
 }

@@ -27,11 +27,29 @@ input {
     background-color: red;
     float: left;
     font-size: 20px;
-    width: 50px;
+    width: 100%;
     transition: 0.5s;
+    margin-right: 0;
 }
 
 .delete-button:hover {
     background-color: rgb(161, 0, 0);
     transition: 0.5s;
+}
+
+.view-button {
+    background-color: rgb(9, 255, 0);
+    float: left;
+    font-size: 20px;
+    width: 100%;
+    transition: 0.5s;
+}
+
+.view-button:hover {
+    background-color: rgb(11, 133, 0);
+    transition: 0.5s;
+}
+
+#mas-datos-div{
+    display: none;
 }
