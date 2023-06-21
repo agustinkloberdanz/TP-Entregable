@@ -1,4 +1,6 @@
-const url = 'https://a210-181-231-122-56.ngrok-free.app/student'
+// const url = 'https://3c04-181-231-122-56.ngrok-free.app/student'
+const url = 'http://localhost:3000/students'
+
 
 window.onload = () => {
     loadStudents()
@@ -208,6 +210,7 @@ function saveStudent() {
         .then(response => {
             loadStudents()
             limpiarInputsSave()
+            successAlert('create')
         })
         .catch(reason => {
             console.log(Error(reason))
@@ -229,12 +232,11 @@ function updateStudent(id) {
         .then(response => {
             loadStudents()
             limpiarInputsUpdate()
+            successAlert('update')
         })
         .catch(reason => {
             console.log(Error(reason))
         })
-
-
 }
 
 function countStudents() {
@@ -262,7 +264,7 @@ function mostrar(id, divId) {
         button.style.margin = '0'
     }
 
-    if(button.id == 'button-mas-datos'){
+    if (button.id == 'button-mas-datos') {
         button.innerHTML = 'Menos datos'
     }
 }
@@ -277,8 +279,28 @@ function esconder(id, divId) {
         button.style.marginBottom = '25px'
     }
 
-    if(button.id == 'button-mas-datos'){
+    if (button.id == 'button-mas-datos') {
         button.innerHTML = 'Más datos'
+    }
+}
+
+function successAlert(type) {
+    var div
+    if (type == 'update') {
+        div = document.getElementById('alert-success-update')
+        div.style.display = 'block'
+        setTimeout((div = document.getElementById('alert-success-update')) => {
+            div.style.display = 'none'
+        },
+            3000)
+    }
+    if (type == 'create') {
+        div = document.getElementById('alert-success-create')
+        div.style.display = 'block'
+        setTimeout((div = document.getElementById('alert-success-create')) => {
+            div.style.display = 'none'
+        },
+            3000)
     }
 }
 

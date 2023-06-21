@@ -16,8 +16,8 @@
     <button id="button-add-div" onclick="mostrar(id, 'add-students-div')">Agregar estudiante</button>
     <div id="add-students-div">
         <input type="text" id="dni" placeholder="DNI">
-        <input type="text" id="lastname" placeholder="Last Name">
         <input type="text" id="firstname" placeholder="First Name">
+        <input type="text" id="lastname" placeholder="Last Name">
         <input type="text" id="email" placeholder="Email">
         <input type="text" id="cohort" placeholder="Cohort">
         <input type="text" id="status" placeholder="Status">
@@ -26,6 +26,10 @@
         <input type="text" id="gender" placeholder="Gender">
 
         <button onclick="saveStudent()">Enviar</button>
+
+        <div class="alert-success" id="alert-success-create">
+            <strong>Success!</strong><span>Student created</span>
+        </div>
     </div>
 
     <br>
@@ -38,11 +42,11 @@
         <label for="dniMod">DNI: </label>
         <input type="text" id="dniMod">
         <br>
-        <label for="lastnameMod">LastName: </label>
-        <input type="text" id="lastnameMod">
-        <br>
         <label for="firstnameMod">FirstName: </label>
         <input type="text" id="firstnameMod">
+        <br>
+        <label for="lastnameMod">LastName: </label>
+        <input type="text" id="lastnameMod">
         <br>
         <label for="emailMod">Email: </label>
         <input type="text" id="emailMod">
@@ -64,14 +68,20 @@
             <input type="text" id="genderMod">
 
         </div>
-        <button id="button-mas-datos" onclick="mostrar(id, 'mas-datos-div')">Más datos <i class="bi bi-arrow-down-square"></i></button>
+        <button id="button-mas-datos" onclick="mostrar(id, 'mas-datos-div')">Más datos</button>
 
-        <button onclick="updateStudent(idMod.value)">Modificar </button>
+        <button type="button" onclick="updateStudent(idMod.value)">Modificar</button>
+
+        <button onclick="limpiarInputsUpdate()">Limpiar campos</button>
+
+        <div class="alert-success" id="alert-success-update">
+            <strong>Success!</strong><span>Student updated</span>
+        </div>
     </div>
 
     <table>
         <caption>
-            <h4>Cantidad de estudiantes: <span id="cant-estudiantes"></span></h4>
+            <h3>Listado de estudiantes</h3>
         </caption>
         <thead>
             <tr>
@@ -81,6 +91,7 @@
                 <th>FirstName</th>
                 <th>Email</th>
                 <th>Gender</th>
+                <th colspan=2 style="text-align: center;"><span>Cantidad de estudiantes: <span id="cant-estudiantes"></span></span></th>
             </tr>
         </thead>
         <tbody id="table-info-students">
