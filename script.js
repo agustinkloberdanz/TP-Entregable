@@ -1,5 +1,5 @@
-// const url = 'https://3c04-181-231-122-56.ngrok-free.app/student'
-const url = 'http://localhost:3000/students'
+// const url = 'http://localhost:3000/students'
+const url = 'https://c957-181-231-122-56.ngrok-free.app/student'
 
 
 window.onload = () => {
@@ -102,6 +102,7 @@ function modifyStudent(id) {
         request.open('POST', url + '/' + id + '/update')
         request.setRequestHeader('Content-Type', 'application/json')
         var student = JSON.stringify({
+            'id': document.getElementById('idMod').value,
             'dni': document.getElementById('dniMod').value,
             'lastName': document.getElementById('lastnameMod').value,
             'firstName': document.getElementById('firstnameMod').value,
@@ -163,6 +164,7 @@ function loadStudents() {
 
                 var eliminar = row.insertCell()
                 eliminar.style.border = 0
+                eliminar.style.backgroundColor = 'red'
                 var deleteButton = document.createElement('button')
                 deleteButton.className = 'delete-button'
                 deleteButton.addEventListener('click', () => deleteStudent(element.id))
@@ -173,6 +175,7 @@ function loadStudents() {
 
                 var view = row.insertCell()
                 view.style.border = 0
+                view.style.backgroundColor = 'green'
                 var viewButton = document.createElement('button')
                 viewButton.className = 'view-button'
                 viewButton.addEventListener('click', () => loadOneStudent(student))
@@ -214,17 +217,21 @@ function saveStudent() {
         })
         .catch(reason => {
             console.log(Error(reason))
+            alert('Error al crear el estudiante')
         })
 }
 
 function deleteStudent(id) {
-    removeStudent(id)
-        .then(response => {
-            loadStudents()
-        })
-        .catch(reason => {
-            console.log(Error(reason))
-        })
+    if (window.confirm('¿Está seguro que quiere eliminar al estudiante?')) {
+        removeStudent(id)
+            .then(response => {
+                loadStudents()
+            })
+            .catch(reason => {
+                console.log(Error(reason))
+                alert('Error al eliminar el estudiante')
+            })
+    }
 }
 
 function updateStudent(id) {
@@ -236,6 +243,7 @@ function updateStudent(id) {
         })
         .catch(reason => {
             console.log(Error(reason))
+            alert('Error al modificar el estudiante')
         })
 }
 
