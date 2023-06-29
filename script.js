@@ -1,5 +1,5 @@
-// const url = 'http://localhost:3000/students'
-const url = 'https://c957-181-231-122-56.ngrok-free.app/student'
+const url = 'http://localhost:3000/students'
+// const url = 'https://ab81-190-191-212-26.ngrok-free.app/students'
 
 
 window.onload = () => {
@@ -164,7 +164,7 @@ function loadStudents() {
 
                 var eliminar = row.insertCell()
                 eliminar.style.border = 0
-                eliminar.style.backgroundColor = 'red'
+                eliminar.style.backgroundColor = 'rgb(161, 0, 0)'
                 var deleteButton = document.createElement('button')
                 deleteButton.className = 'delete-button'
                 deleteButton.addEventListener('click', () => deleteStudent(element.id))
@@ -175,7 +175,7 @@ function loadStudents() {
 
                 var view = row.insertCell()
                 view.style.border = 0
-                view.style.backgroundColor = 'green'
+                view.style.backgroundColor = 'rgb(11, 133, 0)'
                 var viewButton = document.createElement('button')
                 viewButton.className = 'view-button'
                 viewButton.addEventListener('click', () => loadOneStudent(student))
@@ -209,17 +209,22 @@ function loadOneStudent(student) {
 
 
 function saveStudent() {
-    addStudent()
-        .then(response => {
-            loadStudents()
-            limpiarInputsSave()
-            successAlert('create')
-        })
-        .catch(reason => {
-            console.log(Error(reason))
-            alert('Error al crear el estudiante')
-        })
+    if (validarInputsSave()) {
+        addStudent()
+            .then(response => {
+                loadStudents()
+                limpiarInputsSave()
+                successAlert('create')
+            })
+            .catch(reason => {
+                console.log(Error(reason))
+                alert('Error al crear el estudiante')
+            })
+    } else {
+        alert('Error al agregar: Todos los campos son obligatorios!')
+    }
 }
+
 
 function deleteStudent(id) {
     if (window.confirm('¿Está seguro que quiere eliminar al estudiante?')) {
@@ -235,16 +240,21 @@ function deleteStudent(id) {
 }
 
 function updateStudent(id) {
-    modifyStudent(id)
-        .then(response => {
-            loadStudents()
-            limpiarInputsUpdate()
-            successAlert('update')
-        })
-        .catch(reason => {
-            console.log(Error(reason))
-            alert('Error al modificar el estudiante')
-        })
+    if (validarInputsUpdate()) {
+        modifyStudent(id)
+            .then(response => {
+                loadStudents()
+                limpiarInputsUpdate()
+                successAlert('update')
+            })
+            .catch(reason => {
+                console.log(Error(reason))
+                alert('Error al modificar el estudiante')
+            })
+    } else {
+        alert('Error al modificar: Todos los campos son obligatorios!')
+    }
+
 }
 
 function countStudents() {
@@ -335,4 +345,37 @@ function limpiarInputsUpdate() {
     document.querySelector('#addressMod').value = ''
     document.querySelector('#phoneMod').value = ''
     document.querySelector('#genderMod').value = ''
+}
+
+function validarInputsSave() {
+    if (
+        document.getElementById('dni').value != '' &&
+        document.getElementById('lastname').value != '' &&
+        document.getElementById('firstname').value != '' &&
+        document.getElementById('email').value != '' &&
+        document.getElementById('cohort').value != '' &&
+        document.getElementById('gender').value != '' &&
+        document.getElementById('status').value != '' &&
+        document.getElementById('address').value != '' &&
+        document.getElementById('phone').value != ''
+    ) return true
+
+    return false
+}
+
+function validarInputsUpdate() {
+    if (
+        document.getElementById('idMod').value != '' &&
+        document.getElementById('dniMod').value != '' &&
+        document.getElementById('lastnameMod').value != '' &&
+        document.getElementById('firstnameMod').value != '' &&
+        document.getElementById('emailMod').value != '' &&
+        document.getElementById('cohortMod').value != '' &&
+        document.getElementById('genderMod').value != '' &&
+        document.getElementById('statusMod').value != '' &&
+        document.getElementById('addressMod').value != '' &&
+        document.getElementById('phoneMod').value != ''
+    ) return true
+
+    return false
 }
